@@ -47,6 +47,46 @@ npm run build    # output goes into the dist/ folder
 4. Write the article below the second `---` using normal text. See the sample
    for safe phrasing.
 
+## 2a. The easiest way to publish (3 options)
+
+A "post" is just a Markdown file in `src/content/`. There are three ways to
+create one — pick what suits you:
+
+**Option A — Visual editor at `/admin` (recommended, WordPress-like).**
+You log in and fill a form: headline, subject, a Status dropdown, a repeatable
+Sources list, and a rich-text body. It writes the file for you, correctly, so
+you can't break the build. One-time login setup is described in
+"Visual editor (/admin)" below.
+
+**Option B — GitHub website (zero setup, works today).**
+Go to your repo on github.com → open `src/content/posts/` → "Add file →
+Create new file" → write the post (copy the header from an existing file) →
+"Commit". The site rebuilds and goes live automatically. You type the header
+fields by hand, so be careful with formatting.
+
+**Option C — On your computer.**
+Edit files in `src/content/`, then `git add`, `git commit`, `git push`. Best
+once you're comfortable with the tools.
+
+In every case: **save/commit → the site rebuilds → live in about a minute.**
+
+## Visual editor (/admin)
+
+The form-based editor (Decap CMS) lives at `yourdomain.com/admin`. It needs a
+one-time login connection because it writes to your GitHub repo on your behalf.
+
+1. Open `public/admin/config.yml` and set `branch:` to the branch your site
+   deploys from (`main` after you merge this work).
+2. Connect login (choose one):
+   - **Simplest:** deploy a small GitHub OAuth helper (free). Search
+     "Decap CMS GitHub OAuth provider Vercel" for a one-click template, deploy
+     it, then put its URL into `base_url` in `config.yml`.
+   - **Or** host on Netlify and enable Identity + Git Gateway, then delete the
+     `base_url` and `auth_endpoint` lines.
+3. Visit `/admin`, log in with GitHub, and start writing.
+
+Until you finish step 2, use Option B above to publish — no setup needed.
+
 ## 2b. Write a guide (safe, evergreen, great for traffic)
 
 "Guides" are non-accusatory explainers (e.g. *"How to file an RTI"*). They pull

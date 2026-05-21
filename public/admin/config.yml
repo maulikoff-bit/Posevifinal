@@ -1,0 +1,102 @@
+# Visual editor configuration (Decap CMS).
+# This powers the "write a post in a form" admin panel at /admin.
+#
+# IMPORTANT — before this works you must:
+#   1. Set `branch` below to the branch your live site deploys from
+#      (use "main" once you merge; right now it's the feature branch).
+#   2. Connect login (one-time). See README section "Visual editor (/admin)".
+
+backend:
+  name: github
+  repo: maulikoff-bit/Posevifinal
+  branch: claude/investigative-blog-platform-7vCzf
+  # The line below points login at a GitHub OAuth helper. Replace the URL
+  # with your own OAuth provider (see README). Remove these two lines if you
+  # deploy on Netlify and use Identity + Git Gateway instead.
+  base_url: https://YOUR-OAUTH-PROVIDER.example.com
+  auth_endpoint: /auth
+
+# Lets you preview/save drafts as pull requests instead of publishing live.
+publish_mode: editorial_workflow
+
+# Where images you upload in the editor are stored.
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "reports"
+    label: "Reports (about a person)"
+    label_singular: "Report"
+    description: "Sourced reports about a public figure. Every report needs a legal status and at least one source."
+    folder: "src/content/posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} — {{subject}} [{{status}}]"
+    fields:
+      - { label: "Headline", name: "title", widget: "string" }
+      - { label: "Short summary (also used by Google)", name: "description", widget: "text" }
+      - { label: "Publish date", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Updated date", name: "updatedDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
+      - { label: "Subject (the person)", name: "subject", widget: "string" }
+      - { label: "Party", name: "party", widget: "string", required: false }
+      - label: "Legal status"
+        name: "status"
+        widget: "select"
+        hint: "Be accurate. An allegation is NOT a conviction."
+        options:
+          - "Allegation"
+          - "Complaint Filed"
+          - "Under Investigation"
+          - "Charged"
+          - "On Trial"
+          - "Convicted"
+          - "Acquitted"
+          - "Cleared"
+          - "Closed"
+      - { label: "Tags", name: "tags", widget: "list", required: false, hint: "e.g. corruption, land-deal" }
+      - label: "Sources (at least one required)"
+        name: "sources"
+        widget: "list"
+        min: 1
+        summary: "{{fields.title}}"
+        fields:
+          - { label: "Source title", name: "title", widget: "string" }
+          - { label: "Source URL", name: "url", widget: "string" }
+          - { label: "Publisher", name: "publisher", widget: "string", required: false }
+          - { label: "Date", name: "date", widget: "string", required: false }
+      - { label: "Author", name: "author", widget: "string", required: false, default: "Editorial Team" }
+      - { label: "Hero image (optional)", name: "heroImage", widget: "image", required: false }
+      - { label: "Save as draft (won't go live)", name: "draft", widget: "boolean", default: false }
+      - { label: "Article body", name: "body", widget: "markdown" }
+
+  - name: "guides"
+    label: "Guides (explainers)"
+    label_singular: "Guide"
+    description: "Evergreen, non-accusatory how-to and explainer articles. Safe and great for traffic."
+    folder: "src/content/guides"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Short summary (also used by Google)", name: "description", widget: "text" }
+      - { label: "Publish date", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Updated date", name: "updatedDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - label: "Sources (optional)"
+        name: "sources"
+        widget: "list"
+        required: false
+        summary: "{{fields.title}}"
+        fields:
+          - { label: "Source title", name: "title", widget: "string" }
+          - { label: "Source URL", name: "url", widget: "string" }
+          - { label: "Publisher", name: "publisher", widget: "string", required: false }
+          - { label: "Date", name: "date", widget: "string", required: false }
+      - { label: "Author", name: "author", widget: "string", required: false, default: "Editorial Team" }
+      - { label: "Save as draft (won't go live)", name: "draft", widget: "boolean", default: false }
+      - { label: "Article body", name: "body", widget: "markdown" }
