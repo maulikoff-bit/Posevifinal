@@ -1,23 +1,14 @@
 # Visual editor configuration (Decap CMS).
-# This powers the "write a post in a form" admin panel at /admin.
+# Powers the form-based admin panel at /admin. Login is handled by this
+# site's own /api/auth + /api/callback functions (see README setup).
 #
-# IMPORTANT — before this works you must:
-#   1. Set `branch` below to the branch your live site deploys from
-#      (use "main" once you merge; right now it's the feature branch).
-#   2. Connect login (one-time). See README section "Visual editor (/admin)".
+# ONE thing to check: `branch` must match the branch your live site deploys
+# from on Vercel (normally "main").
 
 backend:
   name: github
   repo: maulikoff-bit/Posevifinal
-  branch: claude/investigative-blog-platform-7vCzf
-  # The line below points login at a GitHub OAuth helper. Replace the URL
-  # with your own OAuth provider (see README). Remove these two lines if you
-  # deploy on Netlify and use Identity + Git Gateway instead.
-  base_url: https://YOUR-OAUTH-PROVIDER.example.com
-  auth_endpoint: /auth
-
-# Lets you preview/save drafts as pull requests instead of publishing live.
-publish_mode: editorial_workflow
+  branch: main
 
 # Where images you upload in the editor are stored.
 media_folder: "public/uploads"

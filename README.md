@@ -70,22 +70,16 @@ once you're comfortable with the tools.
 
 In every case: **save/commit → the site rebuilds → live in about a minute.**
 
-## Visual editor (/admin)
+## Visual editor (/admin) — the login is already built in
 
-The form-based editor (Decap CMS) lives at `yourdomain.com/admin`. It needs a
-one-time login connection because it writes to your GitHub repo on your behalf.
+The form-based editor (Decap CMS) lives at `yourdomain.com/admin`. The login
+backend is **already included** in this project (`/api/auth` and
+`/api/callback`), so you do **not** need to deploy any extra service. You only
+have to create one free GitHub "login app" and paste two values into Vercel.
+Full click-by-click steps are in **"GET ONLINE: the 6-step checklist"** below.
 
-1. Open `public/admin/config.yml` and set `branch:` to the branch your site
-   deploys from (`main` after you merge this work).
-2. Connect login (choose one):
-   - **Simplest:** deploy a small GitHub OAuth helper (free). Search
-     "Decap CMS GitHub OAuth provider Vercel" for a one-click template, deploy
-     it, then put its URL into `base_url` in `config.yml`.
-   - **Or** host on Netlify and enable Identity + Git Gateway, then delete the
-     `base_url` and `auth_endpoint` lines.
-3. Visit `/admin`, log in with GitHub, and start writing.
-
-Until you finish step 2, use Option B above to publish — no setup needed.
+Once that's done: go to `/admin`, click "Login with GitHub", and write. Hitting
+**Publish** commits the post and your site updates within about a minute.
 
 ## 2b. Write a guide (safe, evergreen, great for traffic)
 
@@ -117,15 +111,46 @@ Open `src/consts.ts` and change:
 - **Support links** (Buy Me a Coffee / Patreon / UPI) — buttons appear automatically when filled in
 - **AdSense** publisher id — leave blank until approved; ads stay hidden
 
-## 4. Put it online (free)
+## 4. GET ONLINE: the 6-step checklist (do this once)
 
-The easiest path for a beginner:
+Follow these in order. After this, you just log in at `/admin` and write.
 
-1. Push this code to a GitHub repository (already set up for you).
-2. Go to [vercel.com](https://vercel.com) or [netlify.com](https://netlify.com),
-   sign in with GitHub, and click "Import / New Project".
-3. Select this repository. It auto-detects Astro. Click Deploy.
-4. You get a free live URL in ~1 minute. Connect your own domain later in settings.
+**Step 1 — Get the code onto your `main` branch.**
+On GitHub, merge this branch into `main` (GitHub shows a green
+"Compare & pull request" button → "Merge"). Your site will deploy from `main`.
+
+**Step 2 — Deploy on Vercel (free).**
+Go to [vercel.com](https://vercel.com) → sign in with GitHub → "Add New Project"
+→ import this repository → click **Deploy**. Astro is auto-detected. In ~1
+minute you'll get a live URL like `https://posevifinal.vercel.app`. Copy it.
+
+**Step 3 — Create a GitHub "login app".**
+Go to GitHub → Settings → Developer settings → **OAuth Apps** → "New OAuth App".
+Fill in:
+- Application name: `Janhit Watch Admin`
+- Homepage URL: your Vercel URL from Step 2
+- **Authorization callback URL:** your Vercel URL + `/api/callback`
+  (e.g. `https://posevifinal.vercel.app/api/callback`)
+
+Click Register. Copy the **Client ID**. Click "Generate a new client secret"
+and copy the **secret** too.
+
+**Step 4 — Give Vercel those two values.**
+In Vercel → your project → Settings → **Environment Variables**, add:
+- `GITHUB_CLIENT_ID` = the Client ID from Step 3
+- `GITHUB_CLIENT_SECRET` = the secret from Step 3
+
+Then redeploy (Vercel → Deployments → "Redeploy") so the values take effect.
+
+**Step 5 — (If you used a custom domain)** repeat the callback URL in Step 3
+using your real domain.
+
+**Step 6 — Log in and write.**
+Visit `yourdomain.com/admin`, click "Login with GitHub", approve once, and
+start posting. That's it — no files to edit.
+
+> Don't want to set up login yet? You can publish immediately using the GitHub
+> website method (Option B in section 2a) while you do the steps above.
 
 ## 5. Earning money (roadmap)
 

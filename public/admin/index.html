@@ -7,7 +7,21 @@
     <title>Janhit Watch — Content Manager</title>
   </head>
   <body>
-    <!-- Visual editor. Loads the admin UI; it reads ./config.yml -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <script src="https://unpkg.com/decap-cms@^3.7.0/dist/decap-cms.js"></script>
+    <script>
+      // Point the login at this same site's built-in auth functions.
+      // No domain to hard-code — it uses whatever URL you're visiting.
+      window.CMS.init({
+        config: {
+          backend: {
+            base_url: window.location.origin,
+            auth_endpoint: 'api/auth',
+          },
+        },
+      });
+    </script>
   </body>
 </html>
