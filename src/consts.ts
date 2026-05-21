@@ -41,7 +41,7 @@ export const SUPPORT = {
   // e.g. 'https://www.patreon.com/yourname'
   patreon: '',
   // e.g. a UPI id like 'yourname@okhdfcbank' (shown as text for Indian readers)
-  upi: '',
+  upi: '9328938505@ptyes',
 };
 
 // Newsletter signup. Paste the form endpoint from your email provider
