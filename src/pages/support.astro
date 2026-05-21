@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, SUPPORT } from '../consts';
+const hasAny = SUPPORT.buyMeACoffee || SUPPORT.patreon || SUPPORT.upi;
+---
+<BaseLayout title="Support" description={`Support independent accountability journalism at ${SITE.name}.`}>
+  <article class="article">
+    <h1>Support independent journalism</h1>
+    <div class="prose">
+      <p>
+        {SITE.name} takes no money from political parties, candidates or
+        governments. We are funded by readers like you. Even a small,
+        one-time contribution helps us spend more time digging through records.
+      </p>
+
+      {hasAny ? (
+        <div class="support" style="text-align:left">
+          {SUPPORT.buyMeACoffee && (
+            <p><a class="btn" href={SUPPORT.buyMeACoffee} target="_blank" rel="noopener">Buy us a coffee</a></p>
+          )}
+          {SUPPORT.patreon && (
+            <p><a class="btn btn--ghost" href={SUPPORT.patreon} target="_blank" rel="noopener">Become a member on Patreon</a></p>
+          )}
+          {SUPPORT.upi && <p>Pay directly via UPI: <strong>{SUPPORT.upi}</strong></p>}
+        </div>
+      ) : (
+        <p class="legal-note">
+          Support links are not set up yet. Add your Buy Me a Coffee, Patreon
+          or UPI details in <code>src/consts.ts</code> and they will appear here
+          automatically.
+        </p>
+      )}
+
+      <h2>Other ways to help</h2>
+      <ul>
+        <li><strong>Subscribe</strong> to the newsletter so you never miss an investigation.</li>
+        <li><strong>Share</strong> reports that matter — reach is the real currency.</li>
+        <li><strong>Send tips and documents</strong> via the <a href="/contact">Contact</a> page. We protect confidential sources.</li>
+      </ul>
+    </div>
+  </article>
+</BaseLayout>

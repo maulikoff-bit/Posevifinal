@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+
+  const tags = new Set<string>();
+  for (const item of [...posts, ...guides]) item.data.tags.forEach((t) => tags.add(t));
+
+  return [...tags].map((tag) => {
+    const reports = posts
+      .filter((p) => p.data.tags.includes(tag))
+      .map((p) => ({ kind: 'report' as const, item: p }));
+    const gds = guides
+      .filter((g) => g.data.tags.includes(tag))
+      .map((g) => ({ kind: 'guide' as const, item: g }));
+    const entries = [...reports, ...gds].sort(
+      (a, b) => b.item.data.pubDate.valueOf() - a.item.data.pubDate.valueOf()
+    );
+    return { params: { tag }, props: { tag, entries } };
+  });
+}
+
+const { tag, entries } = Astro.props;
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<BaseLayout title={`#${tag}`} description={`Reports and guides tagged ${tag}.`}>
+  <section class="hero">
+    <h1>#{tag}</h1>
+    <p>{entries.length} item{entries.length === 1 ? '' : 's'} on this topic.</p>
+  </section>
+  <ul class="post-list">
+    {entries.map(({ kind, item }) => (
+      <li class="card">
+        <div class="meta">
+          {kind === 'report' ? <StatusBadge status={item.data.status} /> : <span>Guide</span>}
+          {kind === 'report' && <span>{item.data.subject}</span>}
+          <span>{fmt(item.data.pubDate)}</span>
+        </div>
+        <h2><a href={`/${kind === 'report' ? 'posts' : 'guides'}/${item.id}/`}>{item.data.title}</a></h2>
+        <p>{item.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

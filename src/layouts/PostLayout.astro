@@ -26,7 +26,7 @@ const jsonLd = {
 };
 ---
 <BaseLayout title={d.title} description={d.description} type="article" image={d.heroImage}>
-  <article class="article">
+  <article class="article" data-pagefind-body>
     <div class="meta">
       <StatusBadge status={d.status} />
       <span>{d.subject}{d.party ? ` · ${d.party}` : ''}</span>
@@ -51,7 +51,7 @@ const jsonLd = {
 
     {d.tags.length > 0 && (
       <div class="tags">
-        {d.tags.map((t: string) => <span class="tag">#{t}</span>)}
+        {d.tags.map((t: string) => <a class="tag" href={`/topics/${t}/`}>#{t}</a>)}
       </div>
     )}
 

@@ -1,5 +1,6 @@
 ---
-import { SITE, NAV_LINKS, ADSENSE_CLIENT } from '../consts';
+import { SITE, NAV_LINKS, FOOTER_LINKS, ADSENSE_CLIENT } from '../consts';
+import Newsletter from '../components/Newsletter.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -73,11 +74,15 @@ const year = new Date().getFullYear();
       <slot />
     </main>
 
+    <div class="container">
+      <Newsletter />
+    </div>
+
     <footer class="site-footer">
       <div class="container">
         <div class="links">
           {NAV_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
-          <a href="/rss.xml">RSS</a>
+          {FOOTER_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
         </div>
         <p>
           © {year} {SITE.name}. Reporting based on publicly available records.

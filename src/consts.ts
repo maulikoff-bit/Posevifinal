@@ -19,10 +19,19 @@ export const SITE = {
 // Links shown in the navigation bar.
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
+  { href: '/topics', label: 'Topics' },
+  { href: '/guides', label: 'Guides' },
+  { href: '/search', label: 'Search' },
   { href: '/about', label: 'About' },
+  { href: '/support', label: 'Support' },
+];
+
+// Secondary links shown only in the footer.
+export const FOOTER_LINKS = [
   { href: '/methodology', label: 'How We Verify' },
   { href: '/disclaimer', label: 'Disclaimer' },
   { href: '/contact', label: 'Contact' },
+  { href: '/rss.xml', label: 'RSS' },
 ];
 
 // Reader support / membership links. Leave blank to hide a button.
@@ -33,6 +42,16 @@ export const SUPPORT = {
   patreon: '',
   // e.g. a UPI id like 'yourname@okhdfcbank' (shown as text for Indian readers)
   upi: '',
+};
+
+// Newsletter signup. Paste the form endpoint from your email provider
+// (Buttondown, MailerLite, Formspree, ConvertKit, etc.). Leave blank to hide.
+// The form does a normal POST with an `email` field, which all of the above
+// support. See README for 2-minute setup.
+export const NEWSLETTER = {
+  enabled: false,
+  action: '', // e.g. 'https://buttondown.com/api/emails/embed-subscribe/yourname'
+  emailField: 'email',
 };
 
 // Google AdSense publisher id, e.g. 'ca-pub-1234567890123456'.

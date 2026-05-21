@@ -47,6 +47,28 @@ npm run build    # output goes into the dist/ folder
 4. Write the article below the second `---` using normal text. See the sample
    for safe phrasing.
 
+## 2b. Write a guide (safe, evergreen, great for traffic)
+
+"Guides" are non-accusatory explainers (e.g. *"How to file an RTI"*). They pull
+in steady Google traffic and carry almost no legal risk — perfect for getting
+started and for AdSense approval. Four are already included.
+
+- Add a Markdown file in `src/content/guides/`.
+- Required fields: `title`, `description`, `pubDate`, `tags`. `sources` are
+  optional here.
+- Guides appear on `/guides` and on the homepage automatically.
+
+## 2c. Search, topics & newsletter
+
+- **Search** (`/search`) is powered by Pagefind and built automatically during
+  `npm run build`. It works on the live site / `npm run preview`, not in `dev`.
+- **Topics** (`/topics`) pages are generated from the `tags` you add to posts
+  and guides.
+- **Newsletter:** open `src/consts.ts`, set `NEWSLETTER.enabled = true` and
+  paste your provider's form URL into `NEWSLETTER.action`. Free options that
+  work out of the box: Buttondown, MailerLite, ConvertKit, or Formspree. The
+  signup box then appears at the bottom of every page.
+
 ## 3. Customise your brand
 
 Open `src/consts.ts` and change:

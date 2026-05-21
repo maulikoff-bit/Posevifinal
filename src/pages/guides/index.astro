@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
+
+const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<BaseLayout
+  title="Guides"
+  description="Plain-language guides on Indian public records, court processes and how to verify claims about politicians yourself."
+>
+  <section class="hero">
+    <h1>Guides & Explainers</h1>
+    <p>Practical, non-partisan explainers on how to read public records, court documents and election affidavits — and how to check claims for yourself.</p>
+  </section>
+
+  {guides.length === 0 ? (
+    <p style="color:var(--muted)">No guides published yet.</p>
+  ) : (
+    <ul class="post-list">
+      {guides.map((g, i) => (
+        <>
+          <li class="card">
+            <div class="meta"><span>Guide</span><span>{fmt(g.data.pubDate)}</span></div>
+            <h2><a href={`/guides/${g.id}/`}>{g.data.title}</a></h2>
+            <p>{g.data.description}</p>
+          </li>
+          {i === 2 && <AdSlot slot="guides-feed" />}
+        </>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
