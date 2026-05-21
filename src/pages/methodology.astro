@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { STATUS_VALUES } from '../content.config';
+---
+<BaseLayout title="How We Verify">
+  <article class="article">
+    <h1>How We Verify</h1>
+    <div class="prose">
+      <p>
+        Reporting on alleged wrongdoing by public figures carries real legal and
+        ethical responsibility. We follow a fixed checklist before anything is
+        published.
+      </p>
+      <h2>Our sourcing rules</h2>
+      <ol>
+        <li><strong>Primary documents first.</strong> Court orders, charge sheets / FIRs, agency (CBI / ED / CAG / Lokayukta) reports, and election affidavits filed with the ECI.</li>
+        <li><strong>At least one verifiable source per claim.</strong> The site will not build a report that has no sources attached.</li>
+        <li><strong>Credible secondary reporting.</strong> Where we rely on news media, we prefer established outlets and link the original article.</li>
+        <li><strong>No anonymous "facts".</strong> If we cannot point a reader to evidence, we either label it clearly as an unverified allegation or we leave it out.</li>
+      </ol>
+      <h2>How we describe legal status</h2>
+      <p>Every report carries one of these status labels so an allegation is never confused with a conviction:</p>
+      <ul>
+        {STATUS_VALUES.map((s) => <li>{s}</li>)}
+      </ul>
+      <h2>Fairness</h2>
+      <p>
+        We seek or note the subject's response where available, and we offer a
+        right of reply. We update reports when a case status changes — for
+        example, if charges are dropped or a person is acquitted.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,90 @@
+---
+import { SITE, NAV_LINKS, ADSENSE_CLIENT } from '../consts';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: string;
+  image?: string;
+}
+const {
+  title,
+  description = SITE.description,
+  type = 'website',
+  image,
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toString();
+const ogImage = image ? new URL(image, Astro.site ?? SITE.url).toString() : undefined;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.name} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    {
+      ADSENSE_CLIENT && (
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+          crossorigin="anonymous"
+        />
+      )
+    }
+  </head>
+  <body>
+    <div class="banner">
+      Reports are based on public records. A pending case or allegation is not
+      a finding of guilt. See our <a href="/disclaimer">disclaimer</a>.
+    </div>
+
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="/">
+          {SITE.name}
+          <small>{SITE.tagline}</small>
+        </a>
+        <nav class="nav">
+          {NAV_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="links">
+          {NAV_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+          <a href="/rss.xml">RSS</a>
+        </div>
+        <p>
+          © {year} {SITE.name}. Reporting based on publicly available records.
+          We correct errors promptly — see the Contact page to request a
+          correction or right of reply.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

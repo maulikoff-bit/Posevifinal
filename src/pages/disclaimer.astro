@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+---
+<BaseLayout title="Disclaimer">
+  <article class="article">
+    <h1>Disclaimer</h1>
+    <div class="prose">
+      <p><em>Last updated: please edit this date when you review this page.</em></p>
+
+      <h2>Presumption of innocence</h2>
+      <p>
+        Many reports on {SITE.name} concern allegations, complaints, ongoing
+        investigations or pending court cases. An allegation, FIR, charge or
+        investigation is <strong>not</strong> a finding of guilt. Every person
+        is presumed innocent unless and until convicted by a competent court.
+      </p>
+
+      <h2>Sources and accuracy</h2>
+      <p>
+        Our reports are compiled from publicly available records and published
+        reports, which are linked within each article. While we make reasonable
+        efforts to ensure accuracy, we do not independently guarantee the
+        contents of third-party sources. Information may change as cases progress.
+      </p>
+
+      <h2>Opinion vs. fact</h2>
+      <p>
+        Any analysis or commentary represents the author's honest opinion based
+        on the stated facts and is not presented as a statement of fact.
+      </p>
+
+      <h2>Corrections and right of reply</h2>
+      <p>
+        We are committed to fairness. If you are the subject of a report or
+        believe content is inaccurate, contact us via the
+        <a href="/contact">Contact</a> page. We will review promptly, publish a
+        correction where warranted, and offer a right of reply.
+      </p>
+
+      <h2>No legal advice</h2>
+      <p>
+        Nothing on this site is legal advice. This page is a general notice and
+        not a substitute for advice from a qualified lawyer. You should have a
+        lawyer review your specific situation before relying on it.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

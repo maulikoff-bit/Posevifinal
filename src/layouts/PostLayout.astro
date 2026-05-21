@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import Sources from '../components/Sources.astro';
+import SupportBox from '../components/SupportBox.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE } from '../consts';
+
+const { post } = Astro.props;
+const d = post.data;
+const author = d.author ?? SITE.author;
+
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Structured data helps Google understand this is a news article.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.pubDate.toISOString(),
+  dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+  author: { '@type': 'Organization', name: author },
+  publisher: { '@type': 'Organization', name: SITE.name },
+};
+---
+<BaseLayout title={d.title} description={d.description} type="article" image={d.heroImage}>
+  <article class="article">
+    <div class="meta">
+      <StatusBadge status={d.status} />
+      <span>{d.subject}{d.party ? ` · ${d.party}` : ''}</span>
+      <span>{fmt(d.pubDate)}</span>
+      {d.updatedDate && <span>Updated {fmt(d.updatedDate)}</span>}
+    </div>
+
+    <h1>{d.title}</h1>
+    <p style="color:var(--muted);font-size:1.05rem">{d.description}</p>
+
+    <div class="legal-note">
+      <strong>Status: {d.status}.</strong> This report summarises information
+      from public records and published reports about {d.subject}. Where a
+      matter is an allegation or pending in court, it is described as such and
+      no guilt is implied. {d.subject} or their representatives are welcome to
+      send a response or correction via our Contact page.
+    </div>
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    {d.tags.length > 0 && (
+      <div class="tags">
+        {d.tags.map((t: string) => <span class="tag">#{t}</span>)}
+      </div>
+    )}
+
+    <Sources sources={d.sources} />
+    <AdSlot slot="article-bottom" />
+    <SupportBox />
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+</BaseLayout>

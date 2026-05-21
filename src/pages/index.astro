@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE } from '../consts';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<BaseLayout>
+  <section class="hero">
+    <h1>{SITE.tagline}</h1>
+    <p>{SITE.description}</p>
+  </section>
+
+  {posts.length === 0 ? (
+    <p style="color:var(--muted)">
+      No reports published yet. Add a Markdown file in
+      <code>src/content/posts/</code> to get started.
+    </p>
+  ) : (
+    <ul class="post-list">
+      {posts.map((post, i) => (
+        <>
+          <li class="card">
+            <div class="meta">
+              <StatusBadge status={post.data.status} />
+              <span>{post.data.subject}{post.data.party ? ` · ${post.data.party}` : ''}</span>
+              <span>{fmt(post.data.pubDate)}</span>
+            </div>
+            <h2><a href={`/posts/${post.id}/`}>{post.data.title}</a></h2>
+            <p>{post.data.description}</p>
+          </li>
+          {i === 2 && <AdSlot slot="home-feed" />}
+        </>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+---
+<BaseLayout title="About">
+  <article class="article">
+    <h1>About {SITE.name}</h1>
+    <div class="prose">
+      <p>
+        {SITE.name} is an independent public-interest publication that documents
+        allegations, investigations and court proceedings involving politicians
+        and public figures in India. Our goal is simple: make information that
+        already exists in the public record easier to find, read and verify.
+      </p>
+      <h2>What we do</h2>
+      <ul>
+        <li>We compile information from court filings, official agency reports, election affidavits, audits, and credible published journalism.</li>
+        <li>We link every claim to its source so readers can check it themselves.</li>
+        <li>We clearly mark the legal status of each matter — allegation, investigation, trial, conviction or acquittal.</li>
+      </ul>
+      <h2>What we don't do</h2>
+      <ul>
+        <li>We do not invent facts or publish rumours we cannot source.</li>
+        <li>We do not state that someone is guilty of a crime unless a court has convicted them.</li>
+        <li>We do not accept funding or instructions from political parties or candidates.</li>
+      </ul>
+      <h2>Corrections & right of reply</h2>
+      <p>
+        If you believe something we published is inaccurate, or you are a subject
+        of a report and wish to respond, please use the
+        <a href="/contact">Contact</a> page. We review every request and correct
+        genuine errors promptly, with a visible note.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

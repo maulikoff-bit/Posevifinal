@@ -1,0 +1,26 @@
+---
+import { SUPPORT } from '../consts';
+const hasAny = SUPPORT.buyMeACoffee || SUPPORT.patreon || SUPPORT.upi;
+---
+{
+  hasAny && (
+    <aside class="support">
+      <h3>Independent journalism needs readers, not sponsors</h3>
+      <p>
+        We take no money from political parties. If this reporting is useful to
+        you, help keep it going.
+      </p>
+      {SUPPORT.buyMeACoffee && (
+        <a class="btn" href={SUPPORT.buyMeACoffee} target="_blank" rel="noopener">
+          Buy us a coffee
+        </a>
+      )}
+      {SUPPORT.patreon && (
+        <a class="btn btn--ghost" href={SUPPORT.patreon} target="_blank" rel="noopener">
+          Become a member
+        </a>
+      )}
+      {SUPPORT.upi && <p style="margin-top:14px">UPI: <strong>{SUPPORT.upi}</strong></p>}
+    </aside>
+  )
+}

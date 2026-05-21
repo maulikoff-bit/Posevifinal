@@ -1,0 +1,35 @@
+---
+interface Source {
+  title: string;
+  url: string;
+  publisher?: string;
+  date?: string;
+}
+interface Props {
+  sources: Source[];
+}
+const { sources } = Astro.props;
+---
+<section class="sources" aria-label="Sources">
+  <h2>Sources & References</h2>
+  <p class="pub" style="margin-top:-6px">
+    Every claim above is drawn from the public records and reports listed
+    here. Follow the links to verify independently.
+  </p>
+  <ol>
+    {
+      sources.map((s) => (
+        <li>
+          <a href={s.url} target="_blank" rel="noopener nofollow">{s.title}</a>
+          {(s.publisher || s.date) && (
+            <span class="pub">
+              {' '}— {s.publisher}
+              {s.publisher && s.date ? ', ' : ''}
+              {s.date}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</section>
