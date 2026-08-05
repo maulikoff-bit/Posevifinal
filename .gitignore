@@ -18,3 +18,7 @@ node_modules/
 .vscode/
 .idea/
 npm-debug.log*
+
+# python caches
+__pycache__/
+*.pyc
