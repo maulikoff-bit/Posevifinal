@@ -1,0 +1,802 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Tashes &amp; Tousles — a unisex salon on CG Road, Ahmedabad. Barbering, styling and colour priced by the work, not by gender.">
+<title>Tashes &amp; Tousles — Unisex Salon, Ahmedabad</title>
+<style>
+/*__FONTS__*/
+
+:root{
+  --ink:#0B0A0C;
+  --ink-2:#131117;
+  --brass:#D4A24C;
+  --brass-dim:#8A6A2F;
+  --rose:#C4707A;
+  --bone:#EDE6DA;
+  --bone-dim:#9C958A;
+  --smoke:#3A363F;
+
+  --bg:var(--ink);
+  --bg-raise:var(--ink-2);
+  --fg:var(--bone);
+  --fg-dim:var(--bone-dim);
+  --rule:#26232B;
+  --accent:var(--brass);
+  --accent-2:var(--rose);
+  --canvas-tint:#0B0A0C;
+
+  --measure:64ch;
+  --step--1:clamp(.72rem,.68rem + .2vw,.82rem);
+  --step-0:clamp(1rem,.95rem + .25vw,1.12rem);
+  --step-1:clamp(1.35rem,1.2rem + .7vw,1.75rem);
+  --step-2:clamp(1.9rem,1.5rem + 1.8vw,3rem);
+  --step-3:clamp(2.8rem,1.9rem + 4.4vw,6.5rem);
+  --step-4:clamp(3.4rem,1.8rem + 7.6vw,10rem);
+}
+
+:root[data-theme="light"]{
+  --bg:#EFE9DE;
+  --bg-raise:#F7F3EA;
+  --fg:#1A1620;
+  --fg-dim:#5E5768;
+  --rule:#D8CFC0;
+  --accent:#8A6A2F;
+  --accent-2:#A9525F;
+  --canvas-tint:#EFE9DE;
+}
+
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#EFE9DE;
+    --bg-raise:#F7F3EA;
+    --fg:#1A1620;
+    --fg-dim:#5E5768;
+    --rule:#D8CFC0;
+    --accent:#8A6A2F;
+    --accent-2:#A9525F;
+    --canvas-tint:#EFE9DE;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:var(--ink);
+  --bg-raise:var(--ink-2);
+  --fg:var(--bone);
+  --fg-dim:var(--bone-dim);
+  --rule:#26232B;
+  --accent:var(--brass);
+  --accent-2:var(--rose);
+  --canvas-tint:#0B0A0C;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:var(--step-0);
+  font-weight:300;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+#stage{position:fixed;inset:0;z-index:0;pointer-events:none;will-change:opacity}
+#stage canvas{display:block;width:100%;height:100%}
+
+/* Left-weighted scrim: keeps the wordmark legible while the strands
+   stay fully visible on the right of the hero. */
+#veil{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(100deg,var(--bg) 6%,color-mix(in srgb,var(--bg) 72%,transparent) 34%,transparent 62%),
+    radial-gradient(120% 85% at 62% 45%,transparent 34%,var(--bg) 92%);
+}
+
+.page{position:relative;z-index:2}
+
+.wrap{
+  width:min(100% - 2.5rem,72rem);
+  margin-inline:auto;
+}
+
+.eyebrow{
+  font-size:var(--step--1);
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0;
+}
+
+h1,h2,h3{
+  font-family:'Playfair Display',Georgia,serif;
+  font-weight:400;
+  text-wrap:balance;
+  margin:0;
+  line-height:1.02;
+  letter-spacing:-.02em;
+}
+
+p{margin:0;max-width:var(--measure)}
+
+a{color:inherit}
+
+/* ---------- hero ---------- */
+
+.hero{
+  min-height:100svh;
+  display:grid;
+  align-content:center;
+  padding-block:8rem 6rem;
+}
+
+.hero__mark{
+  display:flex;
+  align-items:baseline;
+  gap:.28em;
+  flex-wrap:wrap;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:var(--step-4);
+  line-height:.86;
+  letter-spacing:-.045em;
+}
+.hero__amp{
+  font-size:.42em;
+  font-style:italic;
+  color:var(--accent);
+  transform:translateY(-.18em);
+}
+.hero__b{color:var(--accent-2)}
+
+.hero__sub{
+  margin-top:2rem;
+  font-size:var(--step-1);
+  font-weight:300;
+  color:var(--fg);
+  max-width:34ch;
+  line-height:1.35;
+}
+
+.hero__meta{
+  margin-top:3rem;
+  display:flex;
+  gap:1.5rem 2.5rem;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:.7em;
+  padding:.95em 1.7em;
+  border:1px solid var(--accent);
+  border-radius:999px;
+  background:transparent;
+  color:var(--accent);
+  font-family:'Inter',sans-serif;
+  font-size:var(--step--1);
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .25s ease,color .25s ease,transform .25s ease;
+}
+.btn:hover{background:var(--accent);color:var(--bg);transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+
+.hero__where{
+  font-size:var(--step--1);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+}
+
+.scroll-cue{
+  margin-top:5rem;
+  display:flex;
+  align-items:center;
+  gap:.9rem;
+  font-size:var(--step--1);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+}
+.scroll-cue span{display:block;width:4rem;height:1px;background:var(--rule);position:relative;overflow:hidden}
+.scroll-cue span::after{
+  content:"";position:absolute;inset:0;background:var(--accent);
+  transform:translateX(-100%);animation:sweep 2.6s ease-in-out infinite;
+}
+@keyframes sweep{0%{transform:translateX(-100%)}55%{transform:translateX(100%)}100%{transform:translateX(100%)}}
+
+/* ---------- generic section ---------- */
+
+/* Text sections own their ground. The strands stay visible underneath as a
+   faint shimmer, but never at a strength that competes with reading. */
+.band{
+  position:relative;
+  padding-block:clamp(5rem,11vh,9rem);
+  background:color-mix(in srgb,var(--bg) 93%,transparent);
+  backdrop-filter:blur(18px) saturate(115%);
+}
+.band--raise{
+  background:color-mix(in srgb,var(--bg-raise) 94%,transparent);
+  border-block:1px solid var(--rule);
+}
+
+.band__head{display:grid;gap:1.1rem;margin-bottom:3.5rem}
+.band__head h2{font-size:var(--step-2)}
+.band__head p{color:var(--fg-dim)}
+
+/* ---------- duality ---------- */
+
+.duo{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+@media (min-width:56rem){.duo{grid-template-columns:1fr 1fr}}
+
+.duo__half{
+  background:var(--bg);
+  padding:clamp(2rem,4vw,3.5rem);
+  display:grid;
+  gap:1.2rem;
+  align-content:start;
+  transition:background .4s ease;
+}
+.duo__half:hover{background:var(--bg-raise)}
+.duo__half h3{font-size:var(--step-1)}
+.duo__half p{color:var(--fg-dim);font-size:var(--step-0)}
+.duo__glyph{height:2.5rem;color:var(--accent)}
+.duo__half--b .duo__glyph{color:var(--accent-2)}
+.duo__glyph svg{height:100%;width:auto;overflow:visible}
+
+/* ---------- menu ---------- */
+
+.menu{display:grid;gap:3rem}
+@media (min-width:56rem){.menu{grid-template-columns:1fr 1fr;gap:3rem 4.5rem}}
+
+.menu__group{display:grid;gap:0;align-content:start}
+.menu__group h3{
+  font-size:var(--step--1);
+  font-family:'Inter',sans-serif;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:.5rem;
+}
+.menu__group--b h3{color:var(--accent-2)}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:.4rem 1.5rem;
+  align-items:baseline;
+  padding-block:1.05rem;
+  border-bottom:1px solid var(--rule);
+}
+.row__name{font-weight:400;color:var(--fg)}
+.row__note{grid-column:1/2;font-size:var(--step--1);color:var(--fg-dim);line-height:1.5}
+.row__price{
+  font-variant-numeric:tabular-nums;
+  font-size:var(--step-0);
+  color:var(--accent);
+  white-space:nowrap;
+}
+.menu__group--b .row__price{color:var(--accent-2)}
+
+/* ---------- place ---------- */
+
+.place{display:grid;gap:3rem}
+@media (min-width:56rem){.place{grid-template-columns:1.1fr .9fr;gap:5rem;align-items:start}}
+.place p + p{margin-top:1.2rem}
+.place p{color:var(--fg-dim)}
+.place strong{color:var(--fg);font-weight:400}
+
+.facts{display:grid;gap:0;border-top:1px solid var(--rule)}
+.fact{
+  display:grid;
+  grid-template-columns:8rem 1fr;
+  gap:1rem;
+  padding-block:1.1rem;
+  border-bottom:1px solid var(--rule);
+  font-size:var(--step--1);
+}
+.fact dt{
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+}
+.fact dd{margin:0;color:var(--fg);font-variant-numeric:tabular-nums}
+.fact dd a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.fact dd a:hover{border-bottom-color:var(--accent)}
+
+/* ---------- voices ---------- */
+
+.tag{
+  display:inline-block;
+  font-size:.68rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  border:1px dashed var(--rule);
+  border-radius:999px;
+  padding:.35em .9em;
+}
+
+.voices{display:grid;gap:1.5rem;margin-top:2.5rem}
+@media (min-width:46rem){.voices{grid-template-columns:repeat(3,1fr)}}
+.voice{
+  border-top:2px solid var(--accent);
+  padding-top:1.4rem;
+  display:grid;
+  gap:1rem;
+  align-content:start;
+}
+.voice:nth-child(2){border-top-color:var(--accent-2)}
+.voice blockquote{
+  margin:0;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:var(--step-1);
+  line-height:1.3;
+  letter-spacing:-.01em;
+}
+.voice figcaption{font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dim)}
+
+/* ---------- book ---------- */
+
+.book{text-align:center;display:grid;gap:1.8rem;justify-items:center}
+.book h2{font-size:var(--step-3)}
+.book p{color:var(--fg-dim);margin-inline:auto}
+
+footer{
+  border-top:1px solid var(--rule);
+  padding-block:2.5rem;
+  font-size:var(--step--1);
+  color:var(--fg-dim);
+  display:flex;
+  gap:1rem 2rem;
+  flex-wrap:wrap;
+  justify-content:space-between;
+}
+
+/* ---------- reveal ---------- */
+
+.rise{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.rise.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  .rise{opacity:1;transform:none;transition:none}
+  .scroll-cue span::after{animation:none;transform:translateX(0);opacity:.5}
+  *{scroll-behavior:auto !important}
+}
+</style>
+
+<div id="stage" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"></div>
+
+<div class="page">
+
+  <header class="hero wrap">
+    <p class="eyebrow rise">Unisex salon &middot; Ahmedabad</p>
+    <h1 class="hero__mark rise">
+      <span>Tashes</span><span class="hero__amp">&amp;</span><span class="hero__b">Tousles</span>
+    </h1>
+    <p class="hero__sub rise">Two crafts, one chair. A sharp barber's edge and a stylist's hand, under the same roof on CG Road.</p>
+    <div class="hero__meta rise">
+      <a class="btn" href="#book">Book a chair</a>
+      <span class="hero__where">Tue&ndash;Sun &middot; 10:00&ndash;20:30</span>
+    </div>
+    <div class="scroll-cue rise"><span></span>Scroll</div>
+  </header>
+
+  <section class="band band--raise">
+    <div class="wrap">
+      <div class="band__head rise">
+        <p class="eyebrow">The name, explained</p>
+        <h2>A tash is engineered. A tousle is coaxed.</h2>
+        <p>We never understood why those two things needed separate doors. One room, two disciplines, no assumptions about who sits in which chair.</p>
+      </div>
+      <div class="duo rise">
+        <div class="duo__half duo__half--a">
+          <div class="duo__glyph" aria-hidden="true">
+            <svg viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M60 30c-6-14-20-22-34-18C13 15 6 24 8 30c2 5 12 6 18 1 7-6 9-16 34-16s27 10 34 16c6 5 16 4 18-1 2-6-5-15-18-18-14-4-28 4-34 18Z"/>
+            </svg>
+          </div>
+          <h3>Tashes</h3>
+          <p>Clipper work, scissor-over-comb, straight-razor finishes and beards mapped to the face they actually sit on. Hot towel, cold steel, no rush.</p>
+        </div>
+        <div class="duo__half duo__half--b">
+          <div class="duo__glyph" aria-hidden="true">
+            <svg viewBox="0 0 120 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M6 34c10-22 22-30 30-18s2 26 12 26 12-16 22-26 22-8 26 6"/>
+              <path d="M14 12c8-6 16-4 20 2"/>
+            </svg>
+          </div>
+          <h3>Tousles</h3>
+          <p>Cuts that keep their shape as they grow out, colour read in Ahmedabad daylight rather than salon bulbs, and finishes built for a humid afternoon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="band__head rise">
+        <p class="eyebrow">The menu</p>
+        <h2>Priced by the work, not by the gender on the form.</h2>
+        <p>Every service below is open to anyone. Longer or denser hair takes more time and product, so a few lines carry a length note instead.</p>
+      </div>
+      <div class="menu rise">
+        <div class="menu__group">
+          <h3>Barbering</h3>
+          <div class="row"><span class="row__name">Signature cut &amp; fade</span><span class="row__price">&#8377;450</span><span class="row__note">Consultation, wash, cut, styling finish</span></div>
+          <div class="row"><span class="row__name">Beard sculpt &amp; hot towel</span><span class="row__price">&#8377;350</span><span class="row__note">Shaped to jaw and growth pattern</span></div>
+          <div class="row"><span class="row__name">The tash trim</span><span class="row__price">&#8377;150</span><span class="row__note">Fifteen minutes, wax included</span></div>
+          <div class="row"><span class="row__name">Straight-razor head shave</span><span class="row__price">&#8377;400</span><span class="row__note">Two-pass, balm finish</span></div>
+          <div class="row"><span class="row__name">Father &amp; child chair</span><span class="row__price">&#8377;600</span><span class="row__note">Both cuts, back to back</span></div>
+        </div>
+        <div class="menu__group menu__group--b">
+          <h3>Styling &amp; colour</h3>
+          <div class="row"><span class="row__name">Cut &amp; blow-dry</span><span class="row__price">&#8377;800</span><span class="row__note">From &#8377;1,100 past shoulder length</span></div>
+          <div class="row"><span class="row__name">Global colour</span><span class="row__price">&#8377;2,500</span><span class="row__note">Ammonia-free; patch test 48h prior</span></div>
+          <div class="row"><span class="row__name">Balayage &amp; highlights</span><span class="row__price">&#8377;4,500</span><span class="row__note">Half day, includes toner and gloss</span></div>
+          <div class="row"><span class="row__name">Keratin smoothening</span><span class="row__price">&#8377;5,500</span><span class="row__note">Built for monsoon frizz</span></div>
+          <div class="row"><span class="row__name">Scalp &amp; hair spa</span><span class="row__price">&#8377;1,200</span><span class="row__note">Steam, massage, mask</span></div>
+          <div class="row"><span class="row__name">Bridal &amp; groom packages</span><span class="row__price">from &#8377;12,000</span><span class="row__note">Trial included; on-site available</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--raise">
+    <div class="wrap place">
+      <div class="rise">
+        <p class="eyebrow">The room</p>
+        <h2 style="font-size:var(--step-2);margin-block:1.1rem 1.6rem">Off CG Road, above the noise.</h2>
+        <p>Ahmedabad spent a century weaving thread into cloth, which is a decent way to think about hair: tension, direction, and knowing when to stop pulling.</p>
+        <p>The room is eight chairs, brass fittings, and a lot of natural light on the west wall &mdash; which is why we check colour by the window before you leave, never under a spotlight.</p>
+        <p><strong>Walk-ins welcome before 12:00.</strong> After that the chairs are usually spoken for, so book ahead.</p>
+      </div>
+      <dl class="facts rise">
+        <div class="fact"><dt>Address</dt><dd>Shop 4, Silver Oak Complex,<br>CG Road, Navrangpura,<br>Ahmedabad 380009</dd></div>
+        <div class="fact"><dt>Hours</dt><dd>Tue&ndash;Sun 10:00&ndash;20:30<br>Monday closed</dd></div>
+        <div class="fact"><dt>Phone</dt><dd><a href="tel:+919825000000">+91 98250 00000</a></dd></div>
+        <div class="fact"><dt>Email</dt><dd><a href="mailto:hello@tashesandtousles.in">hello@tashesandtousles.in</a></dd></div>
+        <div class="fact"><dt>Parking</dt><dd>Basement, two hours validated</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="band__head rise">
+        <p class="eyebrow">Voices</p>
+        <h2>What people say.</h2>
+        <p><span class="tag">Sample copy &mdash; replace with real reviews</span></p>
+      </div>
+      <div class="voices rise">
+        <figure class="voice">
+          <blockquote>First place that asked how I actually style it in the morning before touching the scissors.</blockquote>
+          <figcaption>Placeholder &middot; Navrangpura</figcaption>
+        </figure>
+        <figure class="voice">
+          <blockquote>Colour still looked right three weeks and one Gujarat summer later.</blockquote>
+          <figcaption>Placeholder &middot; Bodakdev</figcaption>
+        </figure>
+        <figure class="voice">
+          <blockquote>My father and I get cut in the same room now. That was never going to happen anywhere else.</blockquote>
+          <figcaption>Placeholder &middot; Maninagar</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--raise" id="book">
+    <div class="wrap book">
+      <p class="eyebrow rise">Booking</p>
+      <h2 class="rise">Take the chair.</h2>
+      <p class="rise">Call, or send a message with the service and a rough time. We reply the same day &mdash; and we will tell you honestly if the cut you want will not hold in this humidity.</p>
+      <div class="rise" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+        <a class="btn" href="tel:+919825000000">Call the salon</a>
+        <a class="btn" href="mailto:hello@tashesandtousles.in">Email us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <span>Tashes &amp; Tousles &middot; Unisex salon &middot; Ahmedabad</span>
+    <span>Tue&ndash;Sun 10:00&ndash;20:30</span>
+  </footer>
+
+</div>
+
+<script>/*__THREE__*/</script>
+<script>
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- scroll reveal ---------- */
+  var rises = Array.prototype.slice.call(document.querySelectorAll(".rise"));
+  if (!("IntersectionObserver" in window) || reduced) {
+    rises.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    rises.forEach(function (el, i) {
+      el.style.transitionDelay = Math.min(i, 5) * 70 + "ms";
+      io.observe(el);
+    });
+  }
+
+  /* ---------- 3D stage ---------- */
+  var stage = document.getElementById("stage");
+  if (typeof THREE === "undefined" || !stage) return;
+
+  var canvasOK = (function () {
+    try {
+      var c = document.createElement("canvas");
+      return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl")));
+    } catch (err) { return false; }
+  })();
+  if (!canvasOK) return;
+
+  function themeIsDark() {
+    var attr = document.documentElement.getAttribute("data-theme");
+    if (attr === "dark") return true;
+    if (attr === "light") return false;
+    return !window.matchMedia("(prefers-color-scheme: light)").matches;
+  }
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+  camera.position.set(0, 0, 34);
+
+  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  stage.appendChild(renderer.domElement);
+
+  var BRASS = 0xD4A24C, ROSE = 0xC4707A;
+
+  /* ----- strands: built once, animated on the GPU ----- */
+  var STRANDS = 15;
+  var uTime = { value: 0 };
+  var group = new THREE.Group();
+  scene.add(group);
+
+  var built = [];
+
+  for (var i = 0; i < STRANDS; i++) {
+    var t = i / (STRANDS - 1);
+    var pts = [];
+    var spread = 13.5;
+    var baseX = (t - 0.5) * spread;
+    var lean = (t - 0.5) * 3.2;
+
+    for (var s = 0; s <= 9; s++) {
+      var v = s / 9;
+      pts.push(new THREE.Vector3(
+        baseX + Math.sin(v * Math.PI * 1.15 + i * 0.7) * (1.9 + t * 1.1) + lean * v,
+        (v - 0.5) * 30,
+        Math.cos(v * Math.PI * 1.4 + i * 0.55) * 3.4 - (i % 3) * 1.6
+      ));
+    }
+
+    var curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.5);
+    var radius = 0.055 + (i % 4) * 0.022;
+    var geo = new THREE.TubeGeometry(curve, 130, radius, 7, false);
+
+    var mat = new THREE.MeshStandardMaterial({
+      color: i % 3 === 0 ? ROSE : BRASS,
+      metalness: 0.92,
+      roughness: i % 2 ? 0.28 : 0.16,
+      envMapIntensity: 1
+    });
+
+    // phase differs per strand so the flow never reads as one rigid object
+    var phase = { value: i * 0.83 };
+    var sway = { value: 0.85 + (i % 5) * 0.16 };
+    mat.userData.phase = phase;
+
+    mat.onBeforeCompile = (function (phase, sway) {
+      return function (shader) {
+        shader.uniforms.uTime = uTime;
+        shader.uniforms.uPhase = phase;
+        shader.uniforms.uSway = sway;
+        shader.vertexShader =
+          "uniform float uTime;\nuniform float uPhase;\nuniform float uSway;\n" + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          [
+            "#include <begin_vertex>",
+            "float ty = transformed.y;",
+            "float fall = smoothstep(-16.0, 14.0, ty);",
+            "transformed.x += sin(ty * 0.20 + uTime * 0.55 + uPhase) * uSway * fall;",
+            "transformed.z += cos(ty * 0.16 + uTime * 0.42 + uPhase) * uSway * 0.75 * fall;"
+          ].join("\n")
+        );
+      };
+    })(phase, sway);
+
+    var mesh = new THREE.Mesh(geo, mat);
+    group.add(mesh);
+    built.push({ geo: geo, mat: mat });
+  }
+
+  /* ----- gold dust ----- */
+  var DUST = 900;
+  var dustGeo = new THREE.BufferGeometry();
+  var dpos = new Float32Array(DUST * 3);
+  var dseed = new Float32Array(DUST);
+  for (var d = 0; d < DUST; d++) {
+    dpos[d * 3] = (Math.random() - 0.5) * 46;
+    dpos[d * 3 + 1] = (Math.random() - 0.5) * 40;
+    dpos[d * 3 + 2] = (Math.random() - 0.5) * 26 - 4;
+    dseed[d] = Math.random();
+  }
+  dustGeo.setAttribute("position", new THREE.BufferAttribute(dpos, 3));
+  var dustMat = new THREE.PointsMaterial({
+    color: BRASS, size: 0.075, transparent: true, opacity: 0.55,
+    depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
+  });
+  var dust = new THREE.Points(dustGeo, dustMat);
+  scene.add(dust);
+
+  /* ----- lights: no shadow maps, nothing to receive them ----- */
+  var key = new THREE.DirectionalLight(0xffffff, 1.5);
+  key.position.set(6, 12, 12);
+  scene.add(key);
+
+  var rimA = new THREE.PointLight(BRASS, 260, 70);
+  rimA.position.set(-13, 6, 9);
+  scene.add(rimA);
+
+  var rimB = new THREE.PointLight(ROSE, 190, 70);
+  rimB.position.set(14, -7, 7);
+  scene.add(rimB);
+
+  var ambient = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambient);
+
+  function applyTheme() {
+    var dark = themeIsDark();
+    var bg = dark ? 0x0B0A0C : 0xEFE9DE;
+    scene.background = new THREE.Color(bg);
+    scene.fog = new THREE.Fog(bg, 26, 64);
+    ambient.intensity = dark ? 0.5 : 1.25;
+    key.intensity = dark ? 1.5 : 2.2;
+    rimA.intensity = dark ? 260 : 120;
+    rimB.intensity = dark ? 190 : 90;
+    dustMat.opacity = dark ? 0.55 : 0.32;
+    renderer.toneMappingExposure = dark ? 1.05 : 1.25;
+    for (var k = 0; k < built.length; k++) {
+      built[k].mat.roughness = dark ? (k % 2 ? 0.28 : 0.16) : (k % 2 ? 0.40 : 0.3);
+    }
+  }
+  applyTheme();
+
+  var mqDark = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mqDark.addEventListener) mqDark.addEventListener("change", applyTheme);
+  new MutationObserver(applyTheme).observe(document.documentElement, {
+    attributes: true, attributeFilter: ["data-theme"]
+  });
+
+  /* ----- sizing via ResizeObserver on the container ----- */
+  function resize() {
+    var w = stage.clientWidth || window.innerWidth;
+    var h = stage.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }
+  resize();
+  if ("ResizeObserver" in window) new ResizeObserver(resize).observe(stage);
+  else window.addEventListener("resize", resize);
+
+  /* ----- input: pointer parallax + scroll-scrubbed camera ----- */
+  var pointer = { x: 0, y: 0 }, smooth = { x: 0, y: 0 };
+  window.addEventListener("pointermove", function (e) {
+    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+  }, { passive: true });
+
+  var scrollTarget = 0, scrollNow = 0;
+  function readScroll() {
+    var max = document.body.scrollHeight - window.innerHeight;
+    scrollTarget = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+  }
+  readScroll();
+  window.addEventListener("scroll", readScroll, { passive: true });
+
+  // wide screens read as two columns (type left, strands right); narrow ones centre
+  function bias() {
+    var w = stage.clientWidth || window.innerWidth;
+    if (w < 900) return 0;
+    return Math.min((w - 900) / 700, 1) * 7.2;
+  }
+
+  var clock = new THREE.Clock();
+
+  function frame() {
+    var dt = Math.min(clock.getDelta(), 0.05);
+    uTime.value += dt;
+
+    // continuous scrub, never a snap on threshold
+    scrollNow += (scrollTarget - scrollNow) * Math.min(dt * 3.2, 1);
+    smooth.x += (pointer.x - smooth.x) * Math.min(dt * 2.4, 1);
+    smooth.y += (pointer.y - smooth.y) * Math.min(dt * 2.4, 1);
+
+    group.rotation.y = scrollNow * Math.PI * 1.15 + smooth.x * 0.28;
+    group.rotation.z = Math.sin(uTime.value * 0.16) * 0.045;
+    group.position.y = scrollNow * 13;
+    // hold the strands clear of the wordmark on wide screens, recentre on narrow
+    group.position.x = bias() * (1 - scrollNow * 0.55);
+
+    // the 3D is the hero's thesis; past the fold it recedes to ambience
+    stage.style.opacity = (1 - Math.min(scrollNow / 0.16, 1) * 0.82).toFixed(3);
+
+    dust.rotation.y = -scrollNow * 0.7 + uTime.value * 0.012;
+    dust.position.y = scrollNow * 7;
+
+    camera.position.x = smooth.x * 2.6;
+    camera.position.y = -smooth.y * 1.7 + scrollNow * 2.4;
+    camera.position.z = 34 - scrollNow * 11;
+    camera.lookAt(0, scrollNow * 3.5, 0);
+
+    rimA.position.x = -13 + Math.sin(uTime.value * 0.3) * 3.5;
+    rimB.position.y = -7 + Math.cos(uTime.value * 0.26) * 3.5;
+
+    renderer.render(scene, camera);
+  }
+
+  if (reduced) {
+    // still composed and still scroll-aware, just never self-animating
+    var still = function () {
+      scrollNow = scrollTarget;
+      group.rotation.y = scrollNow * Math.PI * 1.15;
+      group.position.y = scrollNow * 13;
+      group.position.x = bias() * (1 - scrollNow * 0.55);
+      stage.style.opacity = (1 - Math.min(scrollNow / 0.16, 1) * 0.82).toFixed(3);
+      camera.position.z = 34 - scrollNow * 11;
+      camera.position.y = scrollNow * 2.4;
+      camera.lookAt(0, scrollNow * 3.5, 0);
+      renderer.render(scene, camera);
+    };
+    resize();
+    still();
+    window.addEventListener("scroll", still, { passive: true });
+    window.addEventListener("resize", still);
+  } else {
+    group.position.x = bias();
+    renderer.setAnimationLoop(frame);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) {
+        renderer.setAnimationLoop(null);
+      } else {
+        clock.getDelta();
+        renderer.setAnimationLoop(frame);
+      }
+    });
+  }
+
+  window.addEventListener("pagehide", function () {
+    renderer.setAnimationLoop(null);
+    for (var k = 0; k < built.length; k++) {
+      built[k].geo.dispose();
+      built[k].mat.dispose();
+    }
+    dustGeo.dispose();
+    dustMat.dispose();
+    renderer.dispose();
+  });
+})();
+</script>
